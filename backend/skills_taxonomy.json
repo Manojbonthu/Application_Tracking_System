@@ -1,0 +1,61 @@
+{
+  "programming_languages": [
+    "Python", "Java", "JavaScript", "TypeScript", "C", "C++", "C#", "Go", "Rust",
+    "Ruby", "PHP", "Swift", "Kotlin", "Scala", "R", "MATLAB", "Perl", "Bash",
+    "Shell", "PowerShell", "Dart", "Lua", "Haskell", "Elixir", "Clojure", "F#"
+  ],
+  "web_frameworks": [
+    "React", "ReactJS", "React.js", "Angular", "AngularJS", "Vue", "Vue.js",
+    "Next.js", "Nuxt.js", "Svelte", "Django", "Flask", "FastAPI", "Express",
+    "Express.js", "Spring", "Spring Boot", "Laravel", "Rails", "Ruby on Rails",
+    "ASP.NET", "Blazor", "Remix", "Gatsby", "Astro"
+  ],
+  "databases": [
+    "PostgreSQL", "MySQL", "SQLite", "MongoDB", "Redis", "Cassandra", "DynamoDB",
+    "Oracle", "SQL Server", "MariaDB", "CouchDB", "Neo4j", "InfluxDB", "Elasticsearch",
+    "Firebase", "Firestore", "Supabase", "Pinecone", "Weaviate", "ChromaDB"
+  ],
+  "cloud_devops": [
+    "AWS", "Azure", "GCP", "Google Cloud", "Docker", "Kubernetes", "Terraform",
+    "Ansible", "Jenkins", "GitHub Actions", "GitLab CI", "CircleCI", "TravisCI",
+    "Helm", "ArgoCD", "Prometheus", "Grafana", "Nginx", "Apache", "Linux",
+    "Ubuntu", "CentOS", "Heroku", "Render", "Vercel", "Netlify", "DigitalOcean"
+  ],
+  "ai_ml": [
+    "Machine Learning", "ML", "Deep Learning", "DL", "Neural Networks", "NLP",
+    "Natural Language Processing", "Computer Vision", "AI", "Artificial Intelligence",
+    "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "sklearn", "XGBoost",
+    "LightGBM", "CatBoost", "Hugging Face", "Transformers", "BERT", "GPT",
+    "LangChain", "LlamaIndex", "OpenCV", "YOLO", "spaCy", "NLTK", "Gensim",
+    "Sentence Transformers", "FAISS", "Pandas", "NumPy", "Matplotlib", "Seaborn",
+    "Plotly", "Jupyter", "Colab", "MLflow", "Weights and Biases", "wandb",
+    "Reinforcement Learning", "RL", "Transfer Learning", "Fine-tuning", "RAG",
+    "Vector Database", "Embeddings", "Stable Diffusion", "Generative AI", "GenAI",
+    "Large Language Models", "LLM", "Prompt Engineering"
+  ],
+  "data_engineering": [
+    "Spark", "Apache Spark", "Hadoop", "Kafka", "Airflow", "Apache Airflow",
+    "dbt", "Snowflake", "BigQuery", "Redshift", "Data Pipeline", "ETL", "ELT",
+    "Data Warehouse", "Data Lake", "Databricks", "Hive", "Flink", "Beam"
+  ],
+  "tools_platforms": [
+    "Git", "GitHub", "GitLab", "Bitbucket", "Jira", "Confluence", "Notion",
+    "Figma", "Postman", "Swagger", "VS Code", "IntelliJ", "PyCharm", "Eclipse",
+    "Tableau", "Power BI", "Excel", "Google Sheets", "Slack", "Teams"
+  ],
+  "mobile": [
+    "Android", "iOS", "React Native", "Flutter", "Ionic", "Xamarin",
+    "SwiftUI", "Jetpack Compose", "Cordova"
+  ],
+  "security": [
+    "Cybersecurity", "Penetration Testing", "OWASP", "SSL", "TLS", "OAuth",
+    "JWT", "SAML", "SSO", "Firewall", "VPN", "SIEM", "SOC", "Vulnerability Assessment"
+  ],
+  "soft_skills_and_concepts": [
+    "REST API", "RESTful", "GraphQL", "gRPC", "Microservices", "Serverless",
+    "WebSocket", "Message Queue", "RabbitMQ", "Celery", "Agile", "Scrum",
+    "Kanban", "CI/CD", "TDD", "BDD", "Design Patterns", "SOLID", "OOP",
+    "Functional Programming", "System Design", "Software Architecture",
+    "Data Structures", "Algorithms", "Object Oriented Programming"
+  ]
+}
