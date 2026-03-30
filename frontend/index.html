@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Powered ATS | Applicant Tracking System</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-logo">
+    <div class="logo-icon">🤖</div>
+    <h1>AI <span>ATS</span></h1>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span class="header-right-text">Semantic Resume Matching Engine</span>
+    <span class="header-badge">⚡ Powered by SBERT</span>
+  </div>
+</header>
+
+<div class="main-layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="nav-section">
+      <div class="nav-label">Workflow</div>
+      <div class="nav-item active" data-panel="panel-upload" onclick="navigate('panel-upload')">
+        <span class="icon">📂</span> Upload Resumes
+      </div>
+      <div class="nav-item" data-panel="panel-analyze" onclick="navigate('panel-analyze')">
+        <span class="icon">🧠</span> Analyze JD
+      </div>
+      <div class="nav-item" data-panel="panel-results" onclick="navigate('panel-results')">
+        <span class="icon">🏆</span> Results
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">History</div>
+      <div class="nav-item" data-panel="panel-history" onclick="navigate('panel-history')">
+        <span class="icon">📋</span> Past Jobs
+      </div>
+    </div>
+
+    <div class="nav-section sidebar-uploads-section">
+      <div class="nav-label">
+        <span>Uploaded Resumes</span>
+        <span class="nav-label-hint">click to reuse</span>
+      </div>
+      <div id="sidebar-resume-history" class="sidebar-history-scroll">
+        <div class="sidebar-empty">No uploads yet.</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="content">
+
+    <!-- Step progress bar -->
+    <div class="steps">
+      <div class="step active" id="step-1">
+        <div class="step-dot">1</div>
+        <div class="step-label">Upload Resumes</div>
+      </div>
+      <div class="step" id="step-2">
+        <div class="step-dot">2</div>
+        <div class="step-label">Add Job Description</div>
+      </div>
+      <div class="step" id="step-3">
+        <div class="step-dot">3</div>
+        <div class="step-label">View Results</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PANEL 1 — UPLOAD
+    ══════════════════════════════════════════ -->
+    <div id="panel-upload" class="panel active">
+
+      <!-- Hero banner -->
+      <div class="panel-hero">
+        <div class="panel-hero-text">
+          <h2>Upload Candidate Resumes</h2>
+          <p>Upload a single PDF, multiple files, or an entire folder of resumes. Our AI pipeline extracts skills, experience, and semantically matches candidates to your job description.</p>
+        </div>
+        <div class="panel-hero-icon">📁</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Resume Files</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+          <span style="font-size:13px;color:var(--text2);font-weight:600">Upload mode:</span>
+          <button id="btn-mode-single" class="mode-btn active" onclick="setUploadMode('single')">📄 Single / Multiple Files</button>
+          <button id="btn-mode-folder" class="mode-btn" onclick="setUploadMode('folder')">📁 Entire Folder</button>
+        </div>
+        <div id="upload-mode-label" style="font-size:12px;color:var(--accent);margin-bottom:16px;font-weight:500">
+          📄 Single / multi-file mode — select one or more PDF/TXT files
+        </div>
+
+        <div class="upload-zone" id="dropzone">
+          <input type="file" id="file-input" multiple accept=".pdf,.txt" />
+          <div class="upload-icon">📂</div>
+          <div class="upload-title">Drag &amp; drop resumes here</div>
+          <div class="upload-sub">or click to browse &mdash; PDF and TXT files supported</div>
+        </div>
+
+        <div class="upload-action-bar" id="upload-action-bar" style="display:none">
+          <div id="upload-count" style="font-size:13px;color:var(--accent);font-weight:700"></div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-primary" id="btn-upload" onclick="uploadResumes()">⬆️ Upload Resumes</button>
+            <button class="btn btn-secondary" onclick="clearFiles()">🗑️ Clear</button>
+          </div>
+        </div>
+
+        <div id="file-list" class="file-list"></div>
+      </div>
+
+      <!-- Pipeline info -->
+      <div class="card">
+        <div class="card-title">How the AI Pipeline Works</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+          <div class="pipeline-box">
+            <div style="font-size:32px;margin-bottom:10px">📄</div>
+            <div style="font-weight:700;font-size:13px;color:var(--text)">PDF Extraction</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:5px">pdfplumber handles multi-column resume layouts</div>
+          </div>
+          <div class="pipeline-box">
+            <div style="font-size:32px;margin-bottom:10px">🔍</div>
+            <div style="font-weight:700;font-size:13px;color:var(--text)">NLP Extraction</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:5px">spaCy PhraseMatcher extracts skills contextually</div>
+          </div>
+          <div class="pipeline-box">
+            <div style="font-size:32px;margin-bottom:10px">🧠</div>
+            <div style="font-weight:700;font-size:13px;color:var(--text)">Semantic Matching</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:5px">SBERT: ML ≈ Machine Learning automatically</div>
+          </div>
+          <div class="pipeline-box">
+            <div style="font-size:32px;margin-bottom:10px">⚖️</div>
+            <div style="font-weight:700;font-size:13px;color:var(--text)">Weighted Scoring</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:5px">Semantic 40% + Skills 50% + Experience 10%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PANEL 2 — ANALYZE
+    ══════════════════════════════════════════ -->
+    <div id="panel-analyze" class="panel">
+
+      <div class="panel-hero">
+        <div class="panel-hero-text">
+          <h2>Job Description Analysis</h2>
+          <p>Paste or type the job description below. Our AI engine will extract required skills and semantically match all uploaded candidates, ranking them by relevance.</p>
+        </div>
+        <div class="panel-hero-icon">🧠</div>
+      </div>
+
+      <div class="card">
+        <div id="resume-ids-display" class="resume-ids-banner">
+          ⚠️ No resumes loaded yet. <a href="#" onclick="navigate('panel-upload')" style="color:var(--accent);text-decoration:underline">Upload resumes first →</a>
+          <span style="display:block;font-size:11px;font-weight:400;margin-top:4px;color:var(--text2)">Or click a past upload in the left sidebar to reuse it.</span>
+        </div>
+        <div style="margin-bottom:18px">
+          <label for="job-title">Job Title *</label>
+          <input type="text" id="job-title" placeholder="e.g. Senior Python Developer, ML Engineer, Data Scientist" />
+        </div>
+        <div style="margin-bottom:18px">
+          <label for="role-level">Role Level *</label>
+          <input type="text" id="role-level" placeholder="e.g. Experienced, Fresher, Mid-level, Senior, Junior" />
+          <div style="font-size:11px;color:var(--text2);margin-top:6px">Enter the role level - used for intelligent candidate ranking at result time</div>
+        </div>
+        <div style="margin-bottom:18px">
+          <label for="jd-text">Job Description *</label>
+          <textarea id="jd-text" rows="14" placeholder="Paste the full job description here...&#10;&#10;Example:&#10;We are looking for a Python Developer with 2+ years of experience.&#10;Required Skills: Python, FastAPI, PostgreSQL, Docker, REST APIs&#10;Nice to have: Redis, AWS, Celery"></textarea>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-primary" id="btn-analyze" onclick="runAnalysis()" style="flex:1;justify-content:center;padding:13px;">
+            🚀 Run AI Analysis
+          </button>
+          <button class="btn btn-secondary" onclick="clearAnalyzeForm()" style="padding:13px;gap:6px">
+            🗑️ Clear
+          </button>
+        </div>
+      </div>
+      <div id="analyze-status"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         PANEL 3 — RESULTS
+    ══════════════════════════════════════════ -->
+    <div id="panel-results" class="panel">
+
+      <div class="panel-hero">
+        <div class="panel-hero-text">
+          <h2 id="results-job-title">Results</h2>
+          <p>Showing <span id="results-total">0</span> ranked candidates — sorted by AI match score.</p>
+        </div>
+        <div class="panel-hero-icon">🏆</div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:6px">
+        <div class="btn-group" style="margin-bottom:0">
+          <button class="btn-filter active" data-limit="0" onclick="filterResults(0)">All</button>
+          <button class="btn-filter" data-limit="5" onclick="filterResults(5)">Top 5</button>
+          <button class="btn-filter" data-limit="10" onclick="filterResults(10)">Top 10</button>
+          <button class="btn-filter" data-limit="20" onclick="filterResults(20)">Top 20</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-number" id="stat-avg">—</div>
+          <div class="stat-label">Average Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-top">—</div>
+          <div class="stat-label">Top Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-high">—</div>
+          <div class="stat-label">Strong Matches ≥65%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="results-total2">—</div>
+          <div class="stat-label">Total Analyzed</div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <div id="results-container" style="overflow-x:auto">
+          <div class="empty-state">
+            <div class="empty-icon">🏆</div>
+            <h3>No results yet</h3>
+            <p>Upload resumes and run an analysis to see ranked candidates here.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ Shortlist Email Section — hidden by default, shown only after results load -->
+      <div id="shortlist-section" style="display:none;margin:20px 0;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);padding:16px;border-radius:12px;border:1px solid var(--border)">
+        <label style="font-weight:600;color:var(--text)">📧 Send shortlist emails to top:</label>
+        <select id="shortlist-count" style="padding:8px 12px;border-radius:6px;border:1px solid #cbd5e1;font-size:14px;background:var(--surface2)">
+          <option value="1">Top 1</option>
+          <option value="2">Top 2</option>
+          <option value="3">Top 3</option>
+          <option value="5" selected>Top 5</option>
+          <option value="10">Top 10</option>
+          <option value="20">Top 20</option>
+          <option value="30">Top 30</option>
+          <option value="50">Top 50</option>
+          <option value="9999">All</option>
+        </select>
+        <button class="btn btn-primary" onclick="sendShortlistEmails()" style="gap:8px">
+          📧 Send Shortlist Emails
+        </button>
+      </div>
+
+    </div>  <!-- ✅ closes panel-results -->
+
+    <!-- ══════════════════════════════════════════
+         PANEL 4 — HISTORY
+    ══════════════════════════════════════════ -->
+    <div id="panel-history" class="panel">
+
+      <div class="panel-hero">
+        <div class="panel-hero-text">
+          <h2>Past Analyses</h2>
+          <p>All previously analyzed job descriptions stored in the PostgreSQL database. Click any job to load its results.</p>
+        </div>
+        <div class="panel-hero-icon">📋</div>
+      </div>
+
+      <div id="history-container">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading history...</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===== CANDIDATE DETAIL MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ===== TOAST NOTIFICATIONS ===== -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
